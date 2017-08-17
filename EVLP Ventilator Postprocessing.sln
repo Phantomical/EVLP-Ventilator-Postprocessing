@@ -11,6 +11,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "remove_header", "remove_hea
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "remove_empty", "remove_empty\remove_empty.pyproj", "{BA88B16A-E6B6-4CE1-B025-DBCECC218D37}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "reformat_hours", "reformat_hours\reformat_hours.pyproj", "{09161596-691A-46B4-A435-EF0FFEEF9346}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,8 @@ Global
 		{40F59E6E-A31E-4F5D-B8FF-649A6BA19722}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA88B16A-E6B6-4CE1-B025-DBCECC218D37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA88B16A-E6B6-4CE1-B025-DBCECC218D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09161596-691A-46B4-A435-EF0FFEEF9346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09161596-691A-46B4-A435-EF0FFEEF9346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
