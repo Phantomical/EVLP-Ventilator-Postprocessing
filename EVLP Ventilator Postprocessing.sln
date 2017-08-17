@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "convert_to_csv", "convert_to_csv\convert_to_csv.pyproj", "{93211083-CCC3-4C62-966B-B8EF3DB22F55}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "convert_to_utf8", "convert_to_utf8\convert_to_utf8.pyproj", "{ADDBC935-6513-483B-A268-888D2CACF3AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{93211083-CCC3-4C62-966B-B8EF3DB22F55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93211083-CCC3-4C62-966B-B8EF3DB22F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADDBC935-6513-483B-A268-888D2CACF3AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADDBC935-6513-483B-A268-888D2CACF3AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
