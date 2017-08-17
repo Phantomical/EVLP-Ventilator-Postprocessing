@@ -7,6 +7,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "convert_to_csv", "convert_t
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "convert_to_utf8", "convert_to_utf8\convert_to_utf8.pyproj", "{ADDBC935-6513-483B-A268-888D2CACF3AC}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "remove_header", "remove_header\remove_header.pyproj", "{40F59E6E-A31E-4F5D-B8FF-649A6BA19722}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,8 @@ Global
 		{93211083-CCC3-4C62-966B-B8EF3DB22F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADDBC935-6513-483B-A268-888D2CACF3AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ADDBC935-6513-483B-A268-888D2CACF3AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40F59E6E-A31E-4F5D-B8FF-649A6BA19722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40F59E6E-A31E-4F5D-B8FF-649A6BA19722}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
