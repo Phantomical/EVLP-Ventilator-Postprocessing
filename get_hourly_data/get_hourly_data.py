@@ -1,7 +1,6 @@
 from __future__ import print_function
 import sys
 
-
 class time:
     def __init__(self, *args):
         if len(args) == 1:
@@ -25,7 +24,14 @@ class time:
         return time(hrs, mns)
     def __str__(self):
         return str(self.hours) + ':' + str(self.mins)
-    
+    def __lt__(self, other):
+        if self.hours < other.hours:
+            return True
+        return self.mins < other.mins
+
+def get_time(ln):
+    return time(ln.split(',', 1)[0])
+
 def skip_first_n(iter, n):
     cnt = 0
     for v in iter:
@@ -43,29 +49,39 @@ def get_first_n(iter, n):
         else:
             break
 
-def get_time(ln):
-    return time(ln.split(',', 1)[0])
+def get_last_plateau(lines, index):
+    for i in range(index, 2, -1):
+        ln = lines[i]
+        plateau = ln.split(',')[24]
+        if len(plateau.strip()) != 0:
+            return plateau
+    return ""
 
-def reformat_hours(input, output, first=None):
+def sample_data(input, output, timestep = time(1, 0)):
+    lines = [ln.rstrip() for ln in input]
     prev = None
-    for ln in get_first_n(input, 2):
+    for ln in get_first_n(lines, 2):
         output.write(ln + '\n')
-    for ln in skip_first_n(input, 2):
+    for i in range(2, len(lines)):
+        ln = lines[i]
         t = get_time(ln)
-        if first == None:
-            first = t
-            prev = first
-        while t.hours < prev.hours:
-            t.hours += 24
-        time_since_start = t - first
-        result = str(time_since_start) + ',' + ln.split(',', 1)[1]
-        output.write(result + '\n')
-        prev = t
+        
+        # Initialize prev
+        if prev == None:
+            prev = t
+
+        sections = ln.split(',')
+        diff = t - prev
+        if not diff < timestep:
+            prev = t
+            last_plateau = get_last_plateau(lines, i)
+            sections[24] = last_plateau
+            output.write(str.join(',', sections) + '\n')
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print('usage: reformat_hours.py <input_file> <output_file>')
-        sys.exit(-1)
+        print('usage: get_hourly_data <input_file> <output_file>')
     with open(sys.argv[1], 'r') as input, open(sys.argv[2], 'w') as output:
-        reformat_hours(input, output)
-    
+        sample_data(input, output)
+            
+

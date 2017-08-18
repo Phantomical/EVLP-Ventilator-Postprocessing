@@ -2,7 +2,7 @@ from __future__ import print_function
 import sys
 
 def is_data_line(line):
-    return len(line.rstrip()) != 5
+    return len(line.rstrip(',\r\n')) > 5
 
 def remove_dataless(lines):
     return filter(is_data_line, lines)

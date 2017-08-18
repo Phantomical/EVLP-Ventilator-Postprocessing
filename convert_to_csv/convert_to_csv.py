@@ -7,7 +7,7 @@ def convert_line(line : str):
 def convert_file(filename : str):
     with open(filename, "r") as f:
         for ln in f:
-            yield convert_line(ln.rstrip())
+            yield convert_line(ln.rstrip('\r\n'))
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:

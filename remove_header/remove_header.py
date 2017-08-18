@@ -24,7 +24,6 @@ if __name__ == '__main__':
         sys.exit(-1)
     with open(sys.argv[2], 'w') as output, open(sys.argv[1], 'r') as input:
         for ln in strip_all(input):
-            print(ln)
             output.write(ln + '\n')
         
 
