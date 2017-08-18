@@ -17,6 +17,10 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "get_hourly_data", "get_hour
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "calc_plateau_pressure", "calc_plateau_pressure\calc_plateau_pressure.pyproj", "{D71E85A5-C1E4-46FD-B2B6-30EF5E35BA91}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "find_recruitments", "find_recruitments\find_recruitments.pyproj", "{12100A05-EC59-451C-B559-B7A25565ED19}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ventilator_data", "ventilator_data\ventilator_data.pyproj", "{74FCE000-9590-411C-BED5-5C524E7DA2E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,10 @@ Global
 		{D3B3CECA-9831-4BA4-8E9C-AC26D1DF31F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D71E85A5-C1E4-46FD-B2B6-30EF5E35BA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D71E85A5-C1E4-46FD-B2B6-30EF5E35BA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12100A05-EC59-451C-B559-B7A25565ED19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12100A05-EC59-451C-B559-B7A25565ED19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74FCE000-9590-411C-BED5-5C524E7DA2E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74FCE000-9590-411C-BED5-5C524E7DA2E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
