@@ -1,23 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "convert_to_csv", "convert_to_csv\convert_to_csv.pyproj", "{93211083-CCC3-4C62-966B-B8EF3DB22F55}"
-EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "convert_to_utf8", "convert_to_utf8\convert_to_utf8.pyproj", "{ADDBC935-6513-483B-A268-888D2CACF3AC}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "remove_header", "remove_header\remove_header.pyproj", "{40F59E6E-A31E-4F5D-B8FF-649A6BA19722}"
-EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "remove_empty", "remove_empty\remove_empty.pyproj", "{BA88B16A-E6B6-4CE1-B025-DBCECC218D37}"
-EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "reformat_hours", "reformat_hours\reformat_hours.pyproj", "{09161596-691A-46B4-A435-EF0FFEEF9346}"
-EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "get_hourly_data", "get_hourly_data\get_hourly_data.pyproj", "{D3B3CECA-9831-4BA4-8E9C-AC26D1DF31F5}"
-EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "calc_plateau_pressure", "calc_plateau_pressure\calc_plateau_pressure.pyproj", "{D71E85A5-C1E4-46FD-B2B6-30EF5E35BA91}"
-EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "find_recruitments", "find_recruitments\find_recruitments.pyproj", "{12100A05-EC59-451C-B559-B7A25565ED19}"
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ventilator_data", "ventilator_data\ventilator_data.pyproj", "{74FCE000-9590-411C-BED5-5C524E7DA2E7}"
 EndProject
@@ -27,26 +15,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{93211083-CCC3-4C62-966B-B8EF3DB22F55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93211083-CCC3-4C62-966B-B8EF3DB22F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADDBC935-6513-483B-A268-888D2CACF3AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ADDBC935-6513-483B-A268-888D2CACF3AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{40F59E6E-A31E-4F5D-B8FF-649A6BA19722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{40F59E6E-A31E-4F5D-B8FF-649A6BA19722}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA88B16A-E6B6-4CE1-B025-DBCECC218D37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA88B16A-E6B6-4CE1-B025-DBCECC218D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{09161596-691A-46B4-A435-EF0FFEEF9346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{09161596-691A-46B4-A435-EF0FFEEF9346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3B3CECA-9831-4BA4-8E9C-AC26D1DF31F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D3B3CECA-9831-4BA4-8E9C-AC26D1DF31F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D71E85A5-C1E4-46FD-B2B6-30EF5E35BA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D71E85A5-C1E4-46FD-B2B6-30EF5E35BA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12100A05-EC59-451C-B559-B7A25565ED19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12100A05-EC59-451C-B559-B7A25565ED19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74FCE000-9590-411C-BED5-5C524E7DA2E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{74FCE000-9590-411C-BED5-5C524E7DA2E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA78F0F7-7446-4FB2-A25B-99A1E68ACFFD}
 	EndGlobalSection
 EndGlobal
