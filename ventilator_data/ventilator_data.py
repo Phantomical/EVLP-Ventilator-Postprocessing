@@ -1,18 +1,4 @@
-
-class fakefile:
-    def __init__(self, iter=None):
-        if iter == None:
-            self.lines = []
-        else:
-            self.lines = [x for x in iter]
-
-    def __iter__(self):
-        return iter(self.lines)
-
-    def write(self, ln):
-        self.lines.append(ln)
-    def writelines(self, lns):
-        self.lines += [x for x in lns]
+import codecs
 
 class time:
     def __init__(self, *args):
@@ -21,8 +7,11 @@ class time:
             self.hours = int(vals[0])
             self.mins = int(vals[1])
         else:
-            self.hours = args[0] + args[1] // 60
-            self.mins = args[1] % 60
+            self.hours = args[0]
+            self.mins = args[1]
+
+        self.hours += self.mins // 60
+        self.mins %= 60
 
     def __add__(self, other):
         hrs = self.hours + other.hours
@@ -88,7 +77,7 @@ def reformat_hours(input, first=None):
             t.hours += 24
         time_since_start = t - first
         result = str(time_since_start) + ',' + ln.split(',', 1)[1]
-        yield results
+        yield result
         prev = t
 def calc_plateau_pressure(input):
     """Calculate plateau pressure from tidal volume, static compliance, and PEEP"""
@@ -116,16 +105,17 @@ def standard_preprocess(input):
     result = strip_all(result)
     result = remove_empty(result)
     result = reformat_hours(result)
-    yield calc_plateau_pressure(result)
+    return calc_plateau_pressure(result)
 
 def find_recruitment_indices(input):
     is_recruitment = False
     rstart = 0
     # Start considering it a recruitment when
     # the inspiratory tidal volume is above 400mL
-    cutoff = 400
-    for i in range(2, len(input)):
-        values = input[i].rstrip().split(',')
+    cutoff = 300
+    inputvals = [x for x in input]
+    for i in range(2, len(inputvals)):
+        values = inputvals[i].rstrip().split(',')
         tidal_volume = float(values[12])
         if is_recruitment:
             if tidal_volume < cutoff:
@@ -136,4 +126,35 @@ def find_recruitment_indices(input):
                 rstart = i
                 is_recruitment = True
 
-        
+def sample_prerecruitment(input):
+    # Output table headers
+    for ln in get_first_n(input, 2):
+        yield ln
+
+    vals = [x for x in input]
+    # Sample 2 mins before recruitment to 
+    # avoid recruitment measurements affecting
+    # the measured parameters
+    offset = -2
+    for start, end in find_recruitment_indices(vals):
+        # Make sure not to sample data points
+        # before the start of the file
+        idx = max(2, start + offset)
+        yield vals[idx]
+def sample_postrecruitment(input):
+    # Output table headers
+    for ln in get_first_n(input, 2):
+        yield ln
+
+    vals = [x for x in input]
+    # Sample 2 mins after recruitment to 
+    # avoid recruitment measurements affecting
+    # the measured parameters
+    offset = 2
+    for start, end in find_recruitment_indices(vals):
+        # Make sure not to sample data points
+        # before the start of the file
+        idx = max(2, end + offset)
+        yield vals[idx]
+
+
