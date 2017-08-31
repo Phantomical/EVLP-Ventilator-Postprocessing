@@ -26,8 +26,16 @@ class time:
         return time(hrs, mns)
     def __str__(self):
         return str(self.hours) + ':' + str(self.mins)
+
+    def __lt__(self, other):
+        if self.hours == other.hours:
+            return self.mins < other.mins
+        return self.hours < other.hours
 def get_time(ln):
     return time(ln.split(',', 1)[0])
+
+def iterate(gen):
+    return [x for x in gen]
     
 def skip_first_n(iter, n):
     cnt = 0
@@ -63,9 +71,11 @@ and data values.
 def remove_empty(input):
     """Remove data points with no values"""
     return filter(lambda ln: len(ln.rstrip(',\r\n')) > 5, input)
-def reformat_hours(input, first=None):
+def reformat_hours(inputseq, firstval=None):
     """Reformat time to hours since start of EVLP"""
     prev = None
+    first = firstval
+    input = iterate(inputseq)
     for ln in get_first_n(input, 2):
         yield ln
     for ln in skip_first_n(input, 2):
@@ -79,9 +89,10 @@ def reformat_hours(input, first=None):
         result = str(time_since_start) + ',' + ln.split(',', 1)[1]
         yield result
         prev = t
-def calc_plateau_pressure(input):
+def calc_plateau_pressure(inputseq):
     """Calculate plateau pressure from tidal volume, static compliance, and PEEP"""
     toappend = [",Plateau Pressure (Calculated)", ",cmH2O"]
+    input = iterate(inputseq)
 
     for ln, end in zip(input, toappend):
         yield ln + end
@@ -107,11 +118,11 @@ def standard_preprocess(input):
     result = reformat_hours(result)
     return calc_plateau_pressure(result)
 
-def find_recruitment_indices(input):
+def find_recruitment_indices(input, weight=30):
     is_recruitment = False
     rstart = 0
     # Start considering it a recruitment when
-    # the inspiratory tidal volume is above 400mL
+    # the inspiratory tidal volume is above 300mL
     cutoff = 300
     inputvals = [x for x in input]
     for i in range(2, len(inputvals)):
@@ -125,36 +136,113 @@ def find_recruitment_indices(input):
             if tidal_volume > cutoff:
                 rstart = i
                 is_recruitment = True
+def find_assessment_indices(input):
+    is_assessment = False
+    start = 0
+    # Start considering it an assessment when 
+    # %O2 is above 80%
+    cutoff = 80
+    inputvals = [x for x in input]
+    for i in range(2, len(inputvals)):
+        values = inputvals[i].rstrip().split(',')
+        pO2 = float(values[13])
+        if is_assessment:
+            if pO2 < cutoff:
+                yield (start, i)
+                is_assessment = False
+        else:
+            if pO2 > cutoff:
+                start = i
+                is_assessment = True
 
-def sample_prerecruitment(input):
+def sample_rel(inputseq, find_indices, offset):
+    input = iterate(inputseq)
+
+    # Output table headers
+    for ln in get_first_n(input, 2):
+        yield ln
+
+    vals = input
+    for start, end in find_indices(vals):
+        # Make sure not to sample data points
+        # before the start of the file
+        idx = min(max(2, (start if offset < 0 else end) + offset), len(vals))
+        yield vals[idx]
+def sample_over(inputseq, find_indices):
+    input = iterate(inputseq)
+
     # Output table headers
     for ln in get_first_n(input, 2):
         yield ln
 
     vals = [x for x in input]
-    # Sample 2 mins before recruitment to 
-    # avoid recruitment measurements affecting
-    # the measured parameters
-    offset = -2
-    for start, end in find_recruitment_indices(vals):
-        # Make sure not to sample data points
-        # before the start of the file
-        idx = max(2, start + offset)
-        yield vals[idx]
-def sample_postrecruitment(input):
+
+    for start, end in find_indices(vals):
+        for val in vals[start:end]:
+            yield val
+
+def sample_prerecruitment(inputseq):
+    return sample_rel(inputseq, find_recruitment_indices, -2)
+def sample_postrecruitment(inputseq):
+    return sample_rel(inputseq, find_recruitment_indices, 2)
+def sample_over_recruitment(input):
+    return sample_over(input, find_recruitment_indices)
+
+def get_last_plateau(lines, index):
+    for i in range(index, 2, -1):
+        ln = lines[i]
+        plateau = ln.split(',')[24]
+        if len(plateau.strip()) != 0:
+            return plateau
+    return ""
+def sample_data(input, timestep=time(1,0)):
+    lines = [ln.rstrip() for ln in input]
+    prev = None
+    for ln in get_first_n(lines, 2):
+        yield ln
+    for i in range(2, len(lines)):
+        ln = lines[i]
+        t = get_time(ln)
+        
+        # Initialize prev
+        if prev == None:
+            prev = t
+
+        sections = ln.split(',')
+        diff = t - prev
+        if not diff < timestep:
+            prev = t
+            last_plateau = get_last_plateau(lines, i)
+            sections[24] = last_plateau
+            yield str.join(',', sections)
+def remove_extra_datapoints(inputseq, minstep=time(0,30)):
+    input = iterate(inputseq)
+
     # Output table headers
     for ln in get_first_n(input, 2):
         yield ln
 
-    vals = [x for x in input]
-    # Sample 2 mins after recruitment to 
-    # avoid recruitment measurements affecting
-    # the measured parameters
-    offset = 2
-    for start, end in find_recruitment_indices(vals):
-        # Make sure not to sample data points
-        # before the start of the file
-        idx = max(2, end + offset)
-        yield vals[idx]
+    prev = None
+    
+    for val in skip_first_n(input, 2):
+        t = get_time(val)
 
+        if prev == None:
+            prev = t
+            yield val
+        elif not t < prev + minstep:
+            yield val
+
+def get_relevant_values(input):
+    for ln in input:
+        vals = ln.rstrip().split(',')
+        relevant = [
+            vals[0],  # Time
+            vals[6],  # Dynamic Compliance
+            vals[19], # Mean Airway Pressure
+            vals[25], # Peak Airway Pressure
+            vals[28], # Static Compliance
+            vals[37]  # Plateau Pressure (Calculated)
+        ]
+        yield str.join(',', relevant)
 

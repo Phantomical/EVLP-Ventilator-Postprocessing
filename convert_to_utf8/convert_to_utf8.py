@@ -7,7 +7,7 @@ def convert_file(inputfile, outputfile, encoding):
     with codecs.open(inputfile, 'rb', encoding) as source:
         with codecs.open(outputfile, 'wb', 'utf-8') as target:
             while True:
-                contents = source.readline()
+                contents = source.readline().replace('₂', '2')
                 if not contents:
                     break
                 target.write(contents)

@@ -11,6 +11,9 @@
     <OutputPath>.</OutputPath>
     <Name>convert_to_utf8</Name>
     <RootNamespace>convert_to_utf8</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>trend.si output.si</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

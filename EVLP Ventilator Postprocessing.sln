@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "convert_to_utf8", "convert_to_utf8\convert_to_utf8.pyproj", "{ADDBC935-6513-483B-A268-888D2CACF3AC}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "get_hourly_data", "get_hourly_data\get_hourly_data.pyproj", "{D3B3CECA-9831-4BA4-8E9C-AC26D1DF31F5}"
-EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ventilator_data", "ventilator_data\ventilator_data.pyproj", "{74FCE000-9590-411C-BED5-5C524E7DA2E7}"
 EndProject
 Global
@@ -17,8 +15,6 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{ADDBC935-6513-483B-A268-888D2CACF3AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ADDBC935-6513-483B-A268-888D2CACF3AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D3B3CECA-9831-4BA4-8E9C-AC26D1DF31F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D3B3CECA-9831-4BA4-8E9C-AC26D1DF31F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74FCE000-9590-411C-BED5-5C524E7DA2E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{74FCE000-9590-411C-BED5-5C524E7DA2E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
