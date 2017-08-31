@@ -1,3 +1,5 @@
+#!/bin/python3
+
 from __future__ import print_function
 import ventilator_data
 import sys
@@ -24,21 +26,6 @@ def preprocess(
     reformat_hours = args.count('--reformat-hours') != 0
     calc_p_plat = args.count('--calc-plateau-pressure') != 0
 
-    pre_recruitment = (args.count('--sample-pre-recruitment') + args.count('-pre')) != 0
-    post_recruitment = (args.count('--sample-post-recruitment') + args.count('-post')) != 0
-    over_recruitment = args.count('--sample-over-recruitment') != 0
-    relevant_only = args.count('--relevant-params-only') != 0
-
-    kwargs = [x.split('=', 1) for x in filter(lambda v: '=' in v, args)]
-
-    sample_freq = None
-    sample_args = [x for x in filter(lambda arg: arg[0] == '--sample-freq', kwargs)]
-    if len(sample_args) != 0:
-        if len(sample_args[0]) == 0:
-            sample_freq = time(1, 0)
-        else:
-            sample_freq = time(sample_args[0][1])
-
     if standard:
         result = ventilator_data.standard_preprocess(result)
 
@@ -60,29 +47,6 @@ def preprocess(
             result = ventilator_data.calc_plateau_pressure(result)
    
     result = filter(lambda ln: len(ln.rstrip()) != 0, result)
-    
-    if pre_recruitment:
-        result = ventilator_data.sample_prerecruitment(result)
-        result = ventilator_data.remove_extra_datapoints(result, time(0, 45))
-
-        if post_recruitment: print(conflicting_argument('--sample-pre-recruitment', '--sample-post-recruitment'))
-        if over_recruitment: print(conflicting_argument('--sample-pre-recruitment', '--sample-over-recruitment'))
-        if sample_freq != None: print(conflicting_argument('--sample-pre-recruitment', '--sample-freq'))
-    elif post_recruitment: 
-        result = ventilator_data.sample_postrecruitment(result)
-        result = ventilator_data.remove_extra_datapoints(result, time(0, 45))
-
-        if over_recruitment: print(conflicting_argument('--sample-post-recruitment', '--sample-over-recruitment'))
-        if sample_freq != None: print(conflicting_argument('--sample-post-recruitment', '--sample-freq'))
-    elif over_recruitment:
-        result = ventilator_data.sample_over_recruitment(result)
-
-        if sample_freq != None: print(conflicting_argument('--sample-over-recruitment', '--sample-freq'))        
-    elif sample_freq != None:
-        result = ventilator_data.sample_data(result, sample_freq)
-
-    if relevant_only:
-        result = ventilator_data.get_relevant_values(result)
 
     for ln in result:
         output.write(ln + '\n')
