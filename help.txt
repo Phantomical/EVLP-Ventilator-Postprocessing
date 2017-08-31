@@ -40,7 +40,7 @@ Usage:
 
 Options:
     --help
-        Prints this help page.
+        Prints this help page and exits.
     --filter-irrelevant
         Filters out all columns from the output except
         for time, dynamic compliance, mean airway pressure,
@@ -54,4 +54,34 @@ Options:
     --sample-offset=<time>
         Indicates how long before or after recruitment/assessment
         to sample. <time> is in minutes.
+
+Help for time-sample.py 
+Error: No input file specified.
+Usage:
+    time-sample.py <input-file> <output-file> [options]
+
+Options:
+    --help
+        Prints this help page and exits.
+    --filter-irrelevant
+        Filters out all columns from the output except
+        for time, dynamic compliance, mean airway pressure,
+        static compliance, and calculated plateau pressure
+    --sample-freq=<time>
+        Indicates how often to output a datapoint.
+    --sample-start=[<time>|recruitment|assessment]
+        Indicates when to start sampling data points.
+        If recruitment or assessment are given it
+        will start sampling after every recruitment
+        or assessment and end before the next one.
+    --sample-end=[<time>|recruitment|assessment]
+        Indicates when to finish sampling data points.
+        If recruitment or assessment are specified
+        then it overrides the normal handling by
+        --sample-start, allowing for sampling started
+        on a recruitment to end on an assessment or
+        vice-versa.
+    --sample-offset=<time>
+        Indicates how much to offset the first sample
+        from the start point.
 

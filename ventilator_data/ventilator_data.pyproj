@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>74fce000-9590-411c-bed5-5c524e7da2e7</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>preprocess.py</StartupFile>
+    <StartupFile>time-sample.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -12,7 +12,7 @@
     <Name>ventilator_data</Name>
     <RootNamespace>ventilator_data</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>standard.csv pre-assessment.csv --sample-param=assessment --sample-period=pre --sample-offset=2</CommandLineArguments>
+    <CommandLineArguments>standard.csv hourly.csv --sample-freq=1:00 --filter-irrelevant</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -28,6 +28,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="sample.py" />
+    <Compile Include="time-sample.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ventilator_data.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

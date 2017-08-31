@@ -4,8 +4,11 @@ class time:
     def __init__(self, *args):
         if len(args) == 1:
             vals = args[0].split(':')
-            self.hours = int(vals[0])
-            self.mins = int(vals[1])
+            if (len(vals) < 2):
+                self.mins = int(vals)
+            else:
+                self.hours = int(vals[0])
+                self.mins = int(vals[1])
         else:
             self.hours = args[0]
             self.mins = args[1]
