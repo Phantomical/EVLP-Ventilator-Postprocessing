@@ -7,10 +7,114 @@ import codecs
 
 time = ventilator_data.time
 
-def spec_with_standard(switch):
-    return "Warning: %s specified in addition to --standard-preprocessor. %s will be ignored!" % switch
-def conflicting_argument(arg1, arg2):
-    return "Warning: " + arg1 + " specified in addition to " + arg2 + ". " + arg2 + " will be ignored!";
+flags = [
+    '--standard-preprocess',
+    '--convert-to-csv',
+    '--strip-headers',
+    '--remove-empty-datapoints',
+    '--reformat-hours',
+    '--calc-plateau-pressure',
+    '--help'
+]
+arguments = []
+helpstr = """Usage:
+    preprocess.py <input-file> <output-file> [options]
+
+Options:
+    --help
+        Prints out this help page and exits.
+    --standard-preprocess
+        Runs all the preprocessing steps. If you are
+        unsure as to which flags to specify, this is 
+        the one you most likely want. Equivalent to
+        specifying --convert-to-csv, --strip-headers,
+        --remove-empty-datapoints, --reformat-hours,
+        and --calc-plateau-pressure.
+    --convert-to-csv
+        Indicates that the input file should be converted
+        from the .si format into a .csv format. This step
+        must be done before all other steps can be carried
+        out.
+    --strip-headers
+        Causes the script to remove all lines that give 
+        information on the machine doing the ventilation
+        or information on pre-use tests.
+    --remove-empty-datapoints
+        Causes the script to remove all time points which
+        do not have any associated data values.
+    --reformat-hours
+        Causes the script to reformat the time values from
+        time of day to time since start of ventilation.
+    --calc-plateau-pressure
+        Adds an extra column to the output that calculates
+        the plateau pressure from the tidal volume, static
+        compliance and PEEP. The calculated results are 
+        generally more accurate than the plateau pressure
+        values that are recorded by the machine.
+"""
+
+spec_with_standard_error = """Warning:
+    %s was specified with --standard-preprocess.
+    --standard-preprocess implies %s.
+"""
+
+def is_one_of(val, possible):
+    for p in possible:
+        if val == p:
+            return True
+    return False
+
+def parse_args(argv):
+    result = {}
+
+    params = [x for x in filter(lambda x: not x.startswith('--'), argv)]
+    args = [x for x in filter(lambda x: x.startswith('--'), argv)]
+
+    kwargs = [x for x in map(lambda x: x.split('=', 1), filter(lambda arg: arg.count('=') != 0, args))]
+    nargs = [x for x in filter(lambda arg: arg.count('=') == 0, args)]
+
+    for argtype in flags:
+        result[argtype[2:]] = argtype in nargs
+
+    for arg in nargs:
+        if not arg in flags:
+            print("WARNING: Unknown flag \"" + arg + "\". Argument will be ignored.")
+
+    for arg in kwargs:
+        if not arg[0] in arguments:
+            print("WARNING: Unknown argument \"" + arg[0] + "\". Argument will be ignored.")
+        else:
+            result[arg[0][2:]] = arg[1]
+
+    for i, param in enumerate(params):
+        result["arg" + str(i + 1)] = param
+
+    return result
+def validate_args(args):
+    if args['help']:
+        print(helpstr)
+        sys.exit(0)
+    if not 'arg1' in args:
+        print("Error: No input file specified.")
+        print(helpstr)
+        sys.exit(-1)
+    if not 'arg2' in args:
+        print("Error: No output file specified.")
+        print(helpstr)
+        sys.exit(-1)
+
+    if len(args) == 2:
+        print("""Warning: 
+    No flags were specified! 
+    This script will not have any effects.
+
+    Pass --help to the script to see available flags.
+""")
+
+    if args['standard-preprocess']:
+        for flag in flags[1:]:
+            if args[flag[2:]]:
+                print(spec_with_standard_error % flag)
 
 def preprocess(
         input, 
@@ -19,12 +123,12 @@ def preprocess(
     result = input
 
     # Standard preprocess flags
-    standard = (args.count("--standard-preprocess") + args.count("-s")) != 0
-    convert_to_csv = args.count("--convert-to-csv") != 0
-    strip_headers = args.count('--strip-headers') != 0
-    remove_empty = args.count('--remove-empty-datapoints') != 0
-    reformat_hours = args.count('--reformat-hours') != 0
-    calc_p_plat = args.count('--calc-plateau-pressure') != 0
+    standard = args['standard-preprocess']
+    convert_to_csv = args['convert-to-csv']
+    strip_headers = args['strip-headers']
+    remove_empty = args['remove-empty-datapoints']
+    reformat_hours = args['reformat-hours']
+    calc_p_plat = args['calc-plateau-pressure']
 
     if standard:
         result = ventilator_data.standard_preprocess(result)
@@ -56,32 +160,8 @@ def readlines(input):
     return contents
 
 if __name__ == '__main__':
-    args = sys.argv[1:]
-    flags = []
-    input = None    
-    output = None
+    args = parse_args(sys.argv[1:])
+    validate_args(args)
 
-    try:
-        for arg in args:
-            if arg.startswith('-'):
-                flags.append(arg)
-            else:
-                if input == None:
-                    input = open(arg, "r")
-                else:
-                    output = open(arg, 'w')
-
-        if input == None:
-            print("Error: No input file provided")
-            sys.exit(-1)
-        if output == None:
-            print("Error: No input file provided")
-            sys.exit(-1)
-
-        preprocess(readlines(input), output, flags)
-    except:
-        if input != None:
-            input.close()
-        if output != None:
-            output.close()
-        raise
+    with open(args['arg1'], 'r') as input, open(args['arg2'], 'w') as output:
+        preprocess(readlines(input), output, args)

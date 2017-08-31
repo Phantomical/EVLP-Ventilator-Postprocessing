@@ -11,11 +11,11 @@ arguments = [
     '--sample-offset'
 ]
 helpstr = """Usage:
-    sample <input-file> <output-file> [options]
+    sample.py <input-file> <output-file> [options]
 
 Options:
     --help
-        Prints this help page.
+        Prints this help page and exits.
     --filter-irrelevant
         Filters out all columns from the output except
         for time, dynamic compliance, mean airway pressure,

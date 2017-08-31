@@ -1,0 +1,57 @@
+Help for preprocess.py 
+Usage:
+    preprocess.py <input-file> <output-file> [options]
+
+Options:
+    --help
+        Prints out this help page and exits.
+    --standard-preprocess
+        Runs all the preprocessing steps. If you are
+        unsure as to which flags to specify, this is 
+        the one you most likely want. Equivalent to
+        specifying --convert-to-csv, --strip-headers,
+        --remove-empty-datapoints, --reformat-hours,
+        and --calc-plateau-pressure.
+    --convert-to-csv
+        Indicates that the input file should be converted
+        from the .si format into a .csv format. This step
+        must be done before all other steps can be carried
+        out.
+    --strip-headers
+        Causes the script to remove all lines that give 
+        information on the machine doing the ventilation
+        or information on pre-use tests.
+    --remove-empty-datapoints
+        Causes the script to remove all time points which
+        do not have any associated data values.
+    --reformat-hours
+        Causes the script to reformat the time values from
+        time of day to time since start of ventilation.
+    --calc-plateau-pressure
+        Adds an extra column to the output that calculates
+        the plateau pressure from the tidal volume, static
+        compliance and PEEP. The calculated results are 
+        generally more accurate than the plateau pressure
+        values that are recorded by the machine.
+
+Help for sample.py 
+Usage:
+    sample.py <input-file> <output-file> [options]
+
+Options:
+    --help
+        Prints this help page.
+    --filter-irrelevant
+        Filters out all columns from the output except
+        for time, dynamic compliance, mean airway pressure,
+        static compliance, and calculated plateau pressure
+    --sample-period=[pre|post|during]
+        Indicates whether to sample before the recruitment/
+        assessment, during it, or after it.
+    --sample-param=[recruitment|assessment]
+        Indicates whether to sample around recruitments or
+        assessments.
+    --sample-offset=<time>
+        Indicates how long before or after recruitment/assessment
+        to sample. <time> is in minutes.
+
