@@ -249,3 +249,13 @@ def get_relevant_values(input):
         ]
         yield str.join(',', relevant)
 
+def reformat_time(linesseq):
+    lines = iterate(linesseq)
+    for ln in lines[:2]:
+        yield ln
+    for ln in lines[2:]:
+        vals = ln.rstrip().split(',')
+        t = time(vals[0])
+        vals[0] = str(float(t.hours) + float(t.mins) / 60.0)
+        yield str.join(',', vals)
+

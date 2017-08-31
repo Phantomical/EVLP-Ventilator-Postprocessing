@@ -8,7 +8,8 @@ iterate = ventilator_data.iterate
 
 flags = [
     '--filter-irrelevant',
-    '--help'
+    '--help',
+    '--reformat-time'
 ]
 arguments = [
     '--sample-freq',
@@ -43,6 +44,8 @@ Options:
     --sample-offset=<time>
         Indicates how much to offset the first sample
         from the start point.
+    --reformat-time
+        Reformats the time column into a decimal value.
 """
 
 def is_time(v):
@@ -231,7 +234,8 @@ if __name__ == '__main__':
         if args['filter-irrelevant']:
             lines = ventilator_data.get_relevant_values(lines)
 
-        lines = iterate(lines)
+        if args['reformat-time']:
+            lines = ventilator_data.reformat_time(lines)
 
         for ln in lines:
             output.write(ln + '\n')

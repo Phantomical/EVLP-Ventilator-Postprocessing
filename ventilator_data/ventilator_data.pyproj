@@ -27,6 +27,9 @@
     <Compile Include="preprocess.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="rewrite-hours.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="sample.py" />
     <Compile Include="time-sample.py">
       <SubType>Code</SubType>
