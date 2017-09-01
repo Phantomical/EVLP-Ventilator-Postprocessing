@@ -125,8 +125,12 @@ def find_recruitment_indices(input, weight=30):
     is_recruitment = False
     rstart = 0
     # Start considering it a recruitment when
-    # the inspiratory tidal volume is above 300mL
-    cutoff = 300
+    # the inspiratory tidal volume is above the
+    # average of target recruitment and recular
+    # tidal volumes. 
+    # Regular Vt = 7 mL/Kg * weight
+    # Recruitment Vt = 15 mL/Kg * weight  
+    cutoff = 11 * weight
     inputvals = [x for x in input]
     for i in range(2, len(inputvals)):
         values = inputvals[i].rstrip().split(',')

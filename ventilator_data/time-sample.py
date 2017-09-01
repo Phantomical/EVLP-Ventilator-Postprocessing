@@ -46,11 +46,21 @@ Options:
         from the start point.
     --reformat-time
         Reformats the time column into a decimal value.
+    --subject-weight=<weight-in-kg>
+        For pigs this is the weight of the subject in kg. For human
+        subjects this should be the Ideal Body Weight. (This is not
+        tested for human use)
 """
 
 def is_time(v):
     try:
         t = time(v)
+        return True
+    except:
+        return False
+def is_float(v):
+    try:
+        i = float(v)
         return True
     except:
         return False
@@ -140,6 +150,13 @@ def validate_args(args):
     elif not is_time(args['sample-offset']):
         print("Error: Sample offset must be a time value")
         sys.exit(1) 
+
+    if args['subject-weight'] == None:
+        args['subject-weight'] = "30"
+        print("Warning: No subject weight given. Using 30kg instead.")
+    elif not is_float(args['subject-weight']):
+        print("Error: Subject weight was not a recognisable number.")
+        sys.exit(1)
         
 def get_next_time(current_time, lines, indices):
     for (start, end) in indices:
