@@ -2,14 +2,24 @@ This is a collection of scripts to postprocess
 data retrieved from a Maquet Servo-i ventilator
 using the Ventilator Record Card (VRC).
 
+Source Code and Releases:
+	The source code can be viewed at:
+	https://github.com/Phantomical/EVLP-Ventilator-Postprocessing
+	Future releases can be seen at:
+	https://github.com/Phantomical/EVLP-Ventilator-Postprocessing/releases
+
 Instructions for Use:
 1. Copy the TREND.SI file that you wish to process into the folder
    with the generate-csvs.bat file. (This should be the main folder)
     NOTE: On the VRC these can be found in VENT/YYYYMMDD.NNN/NO_NAME
 	      folder. If you have given the patient a name in the ventilator
-	      then the folder will be named something else.
+	      then NO_NAME will be the name of the patient. If multiple
+		  recordings have been done within the same day then NNN will
+		  indicate the recording number within the day. (001 for the 
+		  first one, then 002, etc.)
 2. Run generate-csvs.bat
-3. A series of .csv files should show up in the folder.
+3. A series of .csv files should show up in the folder. See Produced
+   Files for a description of what each file contains.
 
 Troubleshooting:
 If there are errors:
