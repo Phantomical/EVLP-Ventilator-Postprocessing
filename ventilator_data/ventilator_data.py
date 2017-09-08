@@ -130,7 +130,7 @@ def find_recruitment_indices(input, weight=30):
     # tidal volumes. 
     # Regular Vt = 7 mL/Kg * weight
     # Recruitment Vt = 15 mL/Kg * weight  
-    cutoff = 11 * weight
+    cutoff = 11 * float(weight)
     inputvals = [x for x in input]
     for i in range(2, len(inputvals)):
         values = inputvals[i].rstrip().split(',')

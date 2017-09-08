@@ -1,5 +1,6 @@
 import ventilator_data
 import sys
+from functools import partial
 
 flags = [
     '--filter-irrelevant',
@@ -8,7 +9,8 @@ flags = [
 arguments = [
     '--sample-param',
     '--sample-period',
-    '--sample-offset'
+    '--sample-offset',
+    '--subject-weight'
 ]
 helpstr = """Usage:
     sample.py <input-file> <output-file> [options]
@@ -29,6 +31,10 @@ Options:
     --sample-offset=<time>
         Indicates how long before or after recruitment/assessment
         to sample. <time> is in minutes.
+    --subject-weight=<weight-in-kg>
+        For pigs this is the weight of the subject in kg. For human
+        subjects this should be the Ideal Body Weight. (This is not
+        tested for human use)
 """
 
 time = ventilator_data.time
@@ -38,6 +44,12 @@ def is_one_of(val, possible):
         if val == p:
             return True
     return False
+def is_float(v):
+    try:
+        i = float(v)
+        return True
+    except:
+        return False
 
 def parse_args(argv):
     result = {}
@@ -90,10 +102,25 @@ def validate_args(args):
     elif not 'sample-offset' in args:
         args['sample-offset'] = "2"
 
+    if not 'subject-weight' in args:
+        args['subject-weight'] = "30"
+        print("Warning: No subject weight given. Using 30kg as default.")
+    elif args['subject-weight'] == None:
+        args['subject-weight'] = "30"
+        print("Warning: No subject weight given. Using 30kg as default.")
+    elif not is_float(args['subject-weight']):
+        print("Error: Subject weight was not a recognisable number.")
+        sys.exit(1)
+
     if not is_one_of(args['sample-param'], ['recruitment', 'assessment']):
         print('Error: Invalid argument passed to --sample-param. Expected one either "recruitment" or "assessment".')
     if not is_one_of(args['sample-period'], ['pre', 'post', 'during']):
         print('Error: Invalid argument passed to --sample-period. Expected "pre", "post", or "during".')
+def bind_method(func, arg):
+    def revargs(f, a, b):
+        return f(b, a)
+    return partial(revargs, func, arg)
+
 
 if __name__ == '__main__':
     args = parse_args(sys.argv[1:])
@@ -101,7 +128,7 @@ if __name__ == '__main__':
 
     find_indices = None
     if args['sample-param'] == 'recruitment':
-        find_indices = ventilator_data.find_recruitment_indices
+        find_indices = bind_method(ventilator_data.find_recruitment_indices, args['subject-weight'])
     elif args['sample-param'] == 'assessment':
         find_indices = ventilator_data.find_assessment_indices
 

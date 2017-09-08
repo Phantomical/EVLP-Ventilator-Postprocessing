@@ -15,7 +15,8 @@ arguments = [
     '--sample-freq',
     '--sample-start',
     '--sample-end',
-    '--sample-offset'
+    '--sample-offset',
+    '--subject-weight'
 ]
 helpstr = """Usage:
     time-sample.py <input-file> <output-file> [options]
@@ -151,9 +152,12 @@ def validate_args(args):
         print("Error: Sample offset must be a time value")
         sys.exit(1) 
 
-    if args['subject-weight'] == None:
+    if not 'subject-weight' in args:
         args['subject-weight'] = "30"
-        print("Warning: No subject weight given. Using 30kg instead.")
+        print("Warning: No subject weight given. Using 30kg as default.")
+    elif args['subject-weight'] == None:
+        args['subject-weight'] = "30"
+        print("Warning: No subject weight given. Using 30kg as default.")
     elif not is_float(args['subject-weight']):
         print("Error: Subject weight was not a recognisable number.")
         sys.exit(1)
@@ -209,7 +213,7 @@ if __name__ == '__main__':
     with open(args['arg1'], 'r') as input, open(args['arg2'], 'w') as output:
         lines = [ln.rstrip() for ln in input]
 
-        recruitments = iterate(ventilator_data.find_recruitment_indices(lines))
+        recruitments = iterate(ventilator_data.find_recruitment_indices(lines, args['subject-weight']))
         assessments = iterate(ventilator_data.find_assessment_indices(lines))
 
         start_indices = None
