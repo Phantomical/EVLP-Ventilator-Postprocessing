@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>74fce000-9590-411c-bed5-5c524e7da2e7</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>time-sample.py</StartupFile>
+    <StartupFile>sample.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,9 +25,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="preprocess.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="rewrite-hours.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="sample.py" />

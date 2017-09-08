@@ -15,7 +15,8 @@ arguments = [
     '--sample-freq',
     '--sample-start',
     '--sample-end',
-    '--sample-offset'
+    '--sample-offset',
+    '--subject-weight'
 ]
 helpstr = """Usage:
     time-sample.py <input-file> <output-file> [options]
@@ -46,11 +47,21 @@ Options:
         from the start point.
     --reformat-time
         Reformats the time column into a decimal value.
+    --subject-weight=<weight-in-kg>
+        For pigs this is the weight of the subject in kg. For human
+        subjects this should be the Ideal Body Weight. (This is not
+        tested for human use)
 """
 
 def is_time(v):
     try:
         t = time(v)
+        return True
+    except:
+        return False
+def is_float(v):
+    try:
+        i = float(v)
         return True
     except:
         return False
@@ -140,6 +151,16 @@ def validate_args(args):
     elif not is_time(args['sample-offset']):
         print("Error: Sample offset must be a time value")
         sys.exit(1) 
+
+    if not 'subject-weight' in args:
+        args['subject-weight'] = "30"
+        print("Warning: No subject weight given. Using 30kg as default.")
+    elif args['subject-weight'] == None:
+        args['subject-weight'] = "30"
+        print("Warning: No subject weight given. Using 30kg as default.")
+    elif not is_float(args['subject-weight']):
+        print("Error: Subject weight was not a recognisable number.")
+        sys.exit(1)
         
 def get_next_time(current_time, lines, indices):
     for (start, end) in indices:
@@ -192,7 +213,7 @@ if __name__ == '__main__':
     with open(args['arg1'], 'r') as input, open(args['arg2'], 'w') as output:
         lines = [ln.rstrip() for ln in input]
 
-        recruitments = iterate(ventilator_data.find_recruitment_indices(lines))
+        recruitments = iterate(ventilator_data.find_recruitment_indices(lines, args['subject-weight']))
         assessments = iterate(ventilator_data.find_assessment_indices(lines))
 
         start_indices = None
