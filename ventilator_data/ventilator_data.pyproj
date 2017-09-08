@@ -12,7 +12,7 @@
     <Name>ventilator_data</Name>
     <RootNamespace>ventilator_data</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>standard.csv hourly.csv --sample-freq=1:00 --filter-irrelevant</CommandLineArguments>
+    <CommandLineArguments>standard.csv post-assessment.csv --sample-param=assessment --sample-period=post --sample-offset=2 --filter-irrelevant --subject-weight=30</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

@@ -4,9 +4,9 @@ bin\convert_to_utf8 TREND.SI output.si
 bin\preprocess output.si standard.csv --standard-preprocess
 
 bin\time-sample standard.csv hourly.csv --sample-freq=1:00 --filter-irrelevant --subject-weight=30
-bin\time-sample standard.csv 10-from-recruitment.csv --sample-start=recruitment --sample-offset=0:02 --sample-freq=0:10 --filter-irrelevant --reformat-time --subject-weight=30
+bin\time-sample standard.csv 10-from-recruitment.csv --sample-start=recruitment --sample-offset=0:02 --sample-freq=0:10 --filter-irrelevant --reformat-time --subject-weight=30 
 
-bin\sample standard.csv pre-recruitment.csv --sample-param=recruitment --sample-period=pre --sample-offset=1 --filter-irrelevant --subject-weight=30
+bin\sample standard.csv pre-recruitment.csv --sample-param=recruitment --sample-period=pre --sample-offset=1 --filter-irrelevant --subject-weight=30 
 bin\sample standard.csv post-recruitment.csv --sample-param=recruitment --sample-period=post --sample-offset=2 --filter-irrelevant --subject-weight=30
 bin\sample standard.csv over-recruitment.csv --sample-param=recruitment --sample-period=during --filter-irrelevant --subject-weight=30
 

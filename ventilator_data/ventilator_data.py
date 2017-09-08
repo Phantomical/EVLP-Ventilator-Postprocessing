@@ -173,7 +173,7 @@ def sample_rel(inputseq, find_indices, offset):
     for start, end in find_indices(vals):
         # Make sure not to sample data points
         # before the start of the file
-        idx = min(max(2, (start if offset < 0 else end) + offset), len(vals))
+        idx = min(max(2, (start if offset < 0 else end) + offset), len(vals) - 1)
         yield vals[idx]
 def sample_over(inputseq, find_indices):
     input = iterate(inputseq)
